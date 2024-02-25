@@ -1,0 +1,26 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///music
+    username: root
+    password: 123456
+
+
+mybatis-plus:
+  type-aliases-package: com.music.pojo
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+#  global-config:
+#    db-config:
+#      logic-delete-field: isDelete
+#      logic-not-delete-value: 0
+#      logic-delete-value: 1
+
+logging:
+  level:
+    com:
+      dsw:
+        mapper: debug
