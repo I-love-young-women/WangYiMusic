@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-02-25
  */
 public interface IUsersService extends IService<Users> {
-
+    boolean regUser(Users users);
+    String login(String phone,String pwd);
 }
