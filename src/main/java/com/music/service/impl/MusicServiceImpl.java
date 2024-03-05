@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * <p>
@@ -35,6 +36,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicMapper, Music> implements
         byte[] albumImageData ;
         ID3v2 id3v2Tag = mp3file.getId3v2Tag();
         albumImageData = id3v2Tag.getAlbumImage();
+        System.out.println(Arrays.toString(albumImageData)+"222");
         if (albumImageData != null) {
             System.out.println("Have album image data, length: " + albumImageData.length + " bytes");
             System.out.println("Album image mime type: " + id3v2Tag.getAlbumImageMimeType());

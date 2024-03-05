@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql:///music
     username: root
-    password: 123123
+    password: 123456
 
 
 mybatis-plus:

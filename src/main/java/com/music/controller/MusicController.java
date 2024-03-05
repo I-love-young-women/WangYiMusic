@@ -46,8 +46,11 @@ public class MusicController {
     }
 
     @GetMapping("/getCover/{id}")
-    public Result getCover(@PathVariable Integer id) throws InvalidDataException, IOException, UnsupportedTagException {
+    public Result getCover(@PathVariable Integer id) throws
+            InvalidDataException, IOException, UnsupportedTagException {
+        System.out.println(111111);
         Music music = Db.getById(id, Music.class);
+        System.out.println(music);
         return service.getCover(music);
     }
 }

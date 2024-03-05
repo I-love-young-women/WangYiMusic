@@ -6,10 +6,12 @@ import com.music.mapper.UsersMapper;
 import com.music.service.IUsersService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.music.util.MD5Util;
-import com.music.util.RedisUtil;
+
+import com.music.util.TokenUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -23,8 +25,8 @@ import java.util.UUID;
 @Service
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
 
-    @Resource
-    private RedisUtil redisUtil;
+//    @Resource
+//    private RedisUtil redisUtil;
 
     @Override
     public boolean regUser(Users users) {
@@ -40,17 +42,19 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     public String login(String phoneNumber, String password) {
-        System.out.println(phoneNumber+"shouji");
-        System.out.println(password+"1");
-        System.out.println(MD5Util.stringToMD5(password));
+//        System.out.println(phoneNumber+"shouji");
+//        System.out.println(password+"1");
+//        System.out.println(MD5Util.stringToMD5(password));
         Users one = Db.lambdaQuery(Users.class)
                 .eq(Users::getPhoneNumber, phoneNumber)
                 .eq(Users::getPassword, MD5Util.stringToMD5(password)).one();
-        System.out.println(one+"2");
+//        System.out.println(one+"2");
         if (one!=null){
-            UUID token = UUID.randomUUID();
-            redisUtil.set(token.toString(),one);
-            return token.toString();
+//            UUID token = UUID.randomUUID();
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("user",one);
+            //            redisUtil.set(token.toString(),one);
+            return TokenUtil.makeToken(map);
         }
         return null;
     }
