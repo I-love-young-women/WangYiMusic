@@ -33,16 +33,16 @@ public class Music implements Serializable {
     private String title;
 
     @TableField("artist")
-    private String artist;
+    private String name;
 
     @TableField("album")
     private String album;
 
     @TableField("file_url")
-    private String fileUrl;
+    private String url;
 
     @TableField("lyrics")
-    private String lyrics;
+    private String lrc;
 
     @TableField("created_at")
     private LocalDateTime createdAt;

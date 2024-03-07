@@ -50,6 +50,11 @@ public class MusicController {
         Music music = Db.getById(id, Music.class);
         return service.getCover(music);
     }
+
+    @GetMapping("/getAll")
+    public Result getAll() {
+        return new Result(200, service.list(), "获取歌单成功");
+    }
 }
 
 

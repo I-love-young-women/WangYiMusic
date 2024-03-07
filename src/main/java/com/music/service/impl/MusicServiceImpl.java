@@ -28,7 +28,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicMapper, Music> implements
     public Result getCover(Music music) {
         Mp3File mp3file = null;
         try {
-            mp3file = new Mp3File("src/main/resources/static/"+music.getFileUrl());
+            mp3file = new Mp3File("src/main/resources/static/"+music.getUrl());
         } catch (IOException | UnsupportedTagException | InvalidDataException e) {
             e.printStackTrace();
         }
