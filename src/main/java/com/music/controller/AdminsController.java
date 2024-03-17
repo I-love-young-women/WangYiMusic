@@ -10,6 +10,7 @@ import com.music.service.impl.AdminsServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.websocket.server.PathParam;
 
 /**
  * <p>
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/admins")
+@CrossOrigin
 public class AdminsController {
 
     @Resource
@@ -35,9 +37,10 @@ public class AdminsController {
         return new Result(205,false,"add failed ! ");
     }
 
-    @PostMapping("/login")
-    public Result login(Integer id,String pwd){
+    @GetMapping("/login")
+    public Result login(@PathParam("id") Integer id, @PathParam("pwd") String pwd){
         Admins admins = service.getById(id);
+        System.out.println(id+"---"+pwd);
         QueryWrapper<Admins> wrapper = new QueryWrapper<Admins>().eq("admin_id",id)
                 .eq("password",pwd);
         Admins one = service.getOne(wrapper);

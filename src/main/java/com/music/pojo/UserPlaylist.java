@@ -25,11 +25,11 @@ public class UserPlaylist implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("user_id")
-    private Integer userId;
-
     @TableField("playlist_id")
     private Integer playlistId;
+
+    @TableField("music_id")
+    private Integer musicId;
 
 
 }

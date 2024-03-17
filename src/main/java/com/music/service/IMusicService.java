@@ -5,6 +5,8 @@ import com.music.pojo.Music;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.music.pojo.Result;
 
+import java.io.InputStream;
+
 /**
  * <p>
  *  服务类
@@ -15,5 +17,5 @@ import com.music.pojo.Result;
  */
 public interface IMusicService extends IService<Music> {
     Result getCover(Music music);
-
+//    boolean addMusic(InputStream is);
 }
