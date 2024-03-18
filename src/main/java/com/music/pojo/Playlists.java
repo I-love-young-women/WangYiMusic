@@ -44,5 +44,7 @@ public class Playlists implements Serializable {
     @TableField("created_at")
     private LocalDateTime createdAt;
 
+    @TableField(exist = false)
+    private Users users;
 
 }

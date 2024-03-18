@@ -26,6 +26,24 @@ public class Music implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public Music(Integer musicId, String title, String artist, String album, String fileUrl, String lyrics, LocalDateTime createdAt) {
+        this.musicId = musicId;
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.fileUrl = fileUrl;
+        this.lyrics = lyrics;
+        this.createdAt = createdAt;
+    }
+
+    public Music(String title, String artist, String album, String fileUrl, String lyrics) {
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.fileUrl = fileUrl;
+        this.lyrics = lyrics;
+    }
+
     @TableId(value = "music_id", type = IdType.AUTO)
     private Integer musicId;
 
