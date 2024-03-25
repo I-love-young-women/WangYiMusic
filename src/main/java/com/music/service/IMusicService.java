@@ -18,4 +18,6 @@ import java.io.InputStream;
 public interface IMusicService extends IService<Music> {
     Result getCover(Music music);
 //    boolean addMusic(InputStream is);
+    Result getMusic(String name);
+
 }

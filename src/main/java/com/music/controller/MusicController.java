@@ -53,9 +53,7 @@ public class MusicController {
     @GetMapping("/getCover/{id}")
     public Result getCover(@PathVariable Integer id) throws
             InvalidDataException, IOException, UnsupportedTagException {
-        System.out.println(111111);
         Music music = Db.getById(id, Music.class);
-        System.out.println(music);
         return service.getCover(music);
     }
 
@@ -65,7 +63,7 @@ public class MusicController {
         String rootPath = "D:/Idea/KG28Web/WangYiMusic/target/classes/static/";
         String rootPath1 = "D:/Idea/KG28Web/WangYiMusic/src/main/resources/static/";
         String path = "music/" + fileName;
-        System.out.println(path);
+//        System.out.println(path);
         InputStream is = file.getInputStream();
         DataInputStream dis = new DataInputStream(is);
         DataOutputStream dos =
@@ -85,12 +83,12 @@ public class MusicController {
         while ((len1 = dis1.read(bytes1)) != -1) {
             dos1.write(bytes1, 0, len1);
         }
-        System.out.println(dos);
+//        System.out.println(dos);
         dis.close();
         dos.close();
         dis1.close();
         dos1.close();
-        System.out.println(path);
+//        System.out.println(path);
         Music music = new Music(title,artist,album,path,lyrics);
         boolean save = Db.save(music);
 
@@ -104,6 +102,11 @@ public class MusicController {
     @GetMapping("/getAll")
     public Result getAll() {
         return new Result(200, service.list(), "获取歌单成功");
+    }
+
+    @GetMapping("/getMusic")
+    public Result getMusic(String name){
+        return service.getMusic(name);
     }
 
 }
