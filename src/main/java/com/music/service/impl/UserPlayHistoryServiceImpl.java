@@ -1,5 +1,7 @@
 package com.music.service.impl;
 
+import com.baomidou.mybatisplus.extension.toolkit.Db;
+import com.music.pojo.Result;
 import com.music.pojo.UserPlayHistory;
 import com.music.mapper.UserPlayHistoryMapper;
 import com.music.service.IUserPlayHistoryService;
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserPlayHistoryServiceImpl extends ServiceImpl<UserPlayHistoryMapper, UserPlayHistory> implements IUserPlayHistoryService {
 
+    @Override
+    public Result addOrUpdate(UserPlayHistory history) {
+        return new Result(200,Db.saveOrUpdate(history),"ok") ;
+    }
 }

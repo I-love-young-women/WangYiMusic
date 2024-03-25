@@ -41,16 +41,17 @@ public class UsersController {
     @GetMapping("/login/{phoneNumber}/{password}")
     public Result login(@PathVariable String phoneNumber,@PathVariable String password){
         String token = service.login(phoneNumber, password);
-        System.out.println(token);
-        return new Result(200,token,"login successful !");
+        if (token!=null){
+            return new Result(200,token,"login successful !");
+        }
+        return new Result(250,null,"账号密码错误");
+
     }
 
     @GetMapping("/function/getOne")
     public Result getOne(){
         Object userId = request.getAttribute("userId");
         int id = Integer.parseInt(userId.toString());
-
-        System.out.println(id);
         Users user = Db.getById(id, Users.class);
         return new Result(200,user,"ok!");
     }

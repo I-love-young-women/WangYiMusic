@@ -6,8 +6,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -22,6 +27,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("playlists")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Playlists implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,4 +54,23 @@ public class Playlists implements Serializable {
     @TableField(exist = false)
     private Users users;
 
+//    @TableField(exist = false)
+//    private UserPlaylist userPlaylist;
+//
+    @TableField(exist = false)
+    private List<UserPlaylist> userPlaylists;
+
+
+    @TableField(exist = false)
+    private List<Music> list;
+
+    public Playlists(Integer playlistId, String title, Boolean isPublic, String coverImage, LocalDateTime createdAt, Users users, List<Music> list) {
+        this.playlistId = playlistId;
+        this.title = title;
+        this.isPublic = isPublic;
+        this.coverImage = coverImage;
+        this.createdAt = createdAt;
+        this.users = users;
+        this.list = new ArrayList<Music>();
+    }
 }

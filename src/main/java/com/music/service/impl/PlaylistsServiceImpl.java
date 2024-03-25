@@ -4,6 +4,7 @@ import com.music.pojo.Playlists;
 import com.music.mapper.PlaylistsMapper;
 import com.music.service.IPlaylistsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlaylistsServiceImpl extends ServiceImpl<PlaylistsMapper, Playlists> implements IPlaylistsService {
 
+    @Autowired
+    private PlaylistsMapper mapper;
+    @Override
+    public Playlists getPlayList(int id) {
+        return mapper.getPlayList(id);
+    }
 }

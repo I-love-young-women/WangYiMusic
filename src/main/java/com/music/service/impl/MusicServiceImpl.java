@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>
@@ -26,7 +27,6 @@ import java.util.Arrays;
 @Service
 public class MusicServiceImpl extends ServiceImpl<MusicMapper, Music> implements IMusicService {
 
-
     @Override
     public Result getCover(Music music) {
         Mp3File mp3file = null;
@@ -38,14 +38,22 @@ public class MusicServiceImpl extends ServiceImpl<MusicMapper, Music> implements
         byte[] albumImageData ;
         ID3v2 id3v2Tag = mp3file.getId3v2Tag();
         albumImageData = id3v2Tag.getAlbumImage();
-        System.out.println(Arrays.toString(albumImageData)+"222");
+//        System.out.println(Arrays.toString(albumImageData)+"222");
         if (albumImageData != null) {
-            System.out.println("Have album image data, length: " + albumImageData.length + " bytes");
-            System.out.println("Album image mime type: " + id3v2Tag.getAlbumImageMimeType());
             return new Result(200, albumImageData, "ok");
         }
         return new Result(220,"null","无封面");
 
+    }
+
+    @Override
+    public Result getMusic(String name) {
+        List<Music> list = Db.lambdaQuery(Music.class)
+                .like(Music::getArtist, name)
+                .or()
+                .like(Music::getTitle, name)
+                .list();
+        return new Result(200,list,"搜索成功");
     }
 
 //    @Override

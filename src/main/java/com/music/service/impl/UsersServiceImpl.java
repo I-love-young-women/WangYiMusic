@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -42,18 +43,12 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     public String login(String phoneNumber, String password) {
-//        System.out.println(phoneNumber+"shouji");
-//        System.out.println(password+"1");
-//        System.out.println(MD5Util.stringToMD5(password));
-        Users one = Db.lambdaQuery(Users.class)
+        List<Users> list = Db.lambdaQuery(Users.class)
                 .eq(Users::getPhoneNumber, phoneNumber)
-                .eq(Users::getPassword, MD5Util.stringToMD5(password)).one();
-//        System.out.println(one+"2");
-        if (one!=null){
-//            UUID token = UUID.randomUUID();
+                .eq(Users::getPassword, MD5Util.stringToMD5(password)).list();
+        if (list.size()>0){
             HashMap<String, Object> map = new HashMap<>();
-            map.put("user",one);
-            //            redisUtil.set(token.toString(),one);
+            map.put("user",list.get(0));
             return TokenUtil.makeToken(map);
         }
         return null;
