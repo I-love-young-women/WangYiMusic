@@ -31,6 +31,18 @@ public class UserPlaylistController {
         return new Result(205,save,"failed!");
     }
 
+    @DeleteMapping("/dMusic/{pId}/{mId}")
+    public Result rmList(@PathVariable("pId") Integer pId,@PathVariable("mId") Integer mId){
+        System.err.println(pId);
+        System.err.println(mId);
+
+        boolean remove = Db.lambdaUpdate(UserPlaylist.class)
+                .eq(UserPlaylist::getMusicId, mId)
+                .eq(UserPlaylist::getPlaylistId, pId)
+                .remove();
+        return new Result(200,"remove","删除成功");
+    }
+
 
 
 }

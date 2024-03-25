@@ -61,15 +61,53 @@ public class PlaylistsController {
         }
         return new Result(200, list, "ok");
     }
-
-
-    @PostMapping("/upMusic")
-    public Result upMusic(@RequestBody Music music){
-        boolean b = Db.updateById(music);
-        if (b){
-            return new Result(200, true,"successful!");
+    @GetMapping("/getPList")
+    public Result getPList(Integer id) {
+        List<Playlists> list = Db.lambdaQuery(Playlists.class)
+                .ne(Playlists::getUserId, id)
+                .eq(Playlists::getIsPublic,1)
+                .list().stream()
+                .map(m -> m.setUsers(Db.getById(m.getUserId(), Users.class)))
+                .collect(Collectors.toList());
+        for (Playlists playlists : list) {
+            playlists.setList(new ArrayList<>());
+            List<UserPlaylist> list1 = Db.lambdaQuery(UserPlaylist.class)
+                    .eq(UserPlaylist::getPlaylistId, playlists.getPlaylistId())
+                    .select(UserPlaylist::getMusicId)
+                    .list();
+            list1.forEach(a->{
+                Music one = Db.lambdaQuery(Music.class).eq(Music::getMusicId, a.getMusicId()).one();
+                List<Music> list2 = playlists.getList();
+                list2.add(one);
+                playlists.setList(list2);
+            });
         }
-        return new Result(205, false,"failed!");
+        return new Result(200, list, "ok");
     }
+
+    @GetMapping("/getOne")
+    public Result getListById(Integer id){
+        Playlists playlists = Db.lambdaQuery(Playlists.class)
+                .eq(Playlists::getPlaylistId, id)
+                .one();
+        playlists.setList(new ArrayList<>());
+
+        List<UserPlaylist> list1 = Db.lambdaQuery(UserPlaylist.class)
+                    .eq(UserPlaylist::getPlaylistId, playlists.getPlaylistId())
+                    .select(UserPlaylist::getMusicId)
+                    .list();
+        list1.forEach(a->{
+                Music one = Db.lambdaQuery(Music.class).eq(Music::getMusicId, a.getMusicId()).one();
+                List<Music> list2 = playlists.getList();
+                list2.add(one);
+                playlists.setList(list2);
+            });
+
+        return new Result(200, playlists, "ok");
+
+    }
+
+
+
 
 }

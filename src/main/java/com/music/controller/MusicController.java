@@ -10,6 +10,7 @@ import com.mpatric.mp3agic.*;
 import com.music.pojo.Music;
 import com.music.pojo.Result;
 import com.music.service.IMusicService;
+import jdk.internal.instrumentation.Logger;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -21,8 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -109,7 +114,61 @@ public class MusicController {
         return service.getMusic(name);
     }
 
-}
+    @PostMapping("/upMusic")
+    public Result upMusic(@RequestBody Music music){
+        boolean b = Db.updateById(music);
+        if (b){
+            return new Result(200, true,"successful!");
+        }
+        return new Result(205, false,"failed!");
+    }
+
+    @GetMapping("/downloadFile")
+    public void downloadFiles(@RequestParam("file") String downUrl, HttpServletRequest request, HttpServletResponse response) {
+        OutputStream outputStream = null;
+        InputStream inputStream = null;
+        String rootPath = "D:/Idea/KG28Web/WangYiMusic/target/classes/static/";
+        BufferedInputStream bufferedInputStream = null;
+        byte[] bytes = new byte[1024];
+        File file = new File(rootPath+downUrl);
+        String fileName = file.getName();
+//        logger.info("本次下载的文件为" + downUrl);
+        // 获取输出流
+        try {
+//             StandardCharsets.ISO_8859_1 *=UTF-8'
+//             response.setHeader("Content-Disposition", "attachment;filename=" +  new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            response.setContentType("application/octet-stream;charset=utf-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            // 以流的形式返回文件
+            inputStream = new FileInputStream(file);
+            bufferedInputStream = new BufferedInputStream(inputStream);
+            outputStream = response.getOutputStream();
+            int i = bufferedInputStream.read(bytes);
+            while (i != -1) {
+                outputStream.write(bytes, 0, i);
+                i = bufferedInputStream.read(bytes);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+                if (bufferedInputStream != null) {
+                    bufferedInputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    }
 
 
 

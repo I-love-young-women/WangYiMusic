@@ -49,6 +49,4 @@ public class AdminsController {
         }
         return new Result(205,null,"login failed ! ");
     }
-
-
 }
