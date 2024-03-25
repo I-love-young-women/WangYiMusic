@@ -26,7 +26,7 @@ import java.util.Arrays;
 @Service
 public class MusicServiceImpl extends ServiceImpl<MusicMapper, Music> implements IMusicService {
 
-    private IMusicService service;
+
     @Override
     public Result getCover(Music music) {
         Mp3File mp3file = null;

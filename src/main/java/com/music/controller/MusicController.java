@@ -95,7 +95,6 @@ public class MusicController {
         boolean save = Db.save(music);
 
         if (save){
-            System.out.println(save);
             return new Result(200, true, "ok!");
         }else {
             return new Result(205, false, "error!");
@@ -106,6 +105,15 @@ public class MusicController {
         return new Result(200, service.list(), "获取歌单成功");
     }
 
+    @PostMapping("upMusic")
+    public Result upMusic(@RequestBody Music music){
+        boolean b = Db.updateById(music);
+        if (b){
+            return new Result(200, true, "ok!");
+        }else {
+            return new Result(205, false, "error!");
+        }
+    }
 }
 
 
