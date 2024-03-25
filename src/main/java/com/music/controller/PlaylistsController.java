@@ -30,10 +30,14 @@ public class PlaylistsController {
 
     @Autowired
     private IPlaylistsService service;
-//    @PostMapping("/addList")
-//    public Result addList(){
-//
-//    }
+    @PostMapping("/addList")
+    public Result addList(@RequestBody Playlists playlists){
+        boolean save = Db.save(playlists);
+        if (save){
+            return new Result(200, true,"successful!");
+        }
+        return new Result(205, false,"failed!");
+    }
 
     @GetMapping("/getList")
     public Result getList(Integer id) {
@@ -59,5 +63,13 @@ public class PlaylistsController {
     }
 
 
+    @PostMapping("/upMusic")
+    public Result upMusic(@RequestBody Music music){
+        boolean b = Db.updateById(music);
+        if (b){
+            return new Result(200, true,"successful!");
+        }
+        return new Result(205, false,"failed!");
+    }
 
 }
